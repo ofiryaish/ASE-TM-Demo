@@ -1,0 +1,300 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" type="text/css" href="cid:css-99d622a7-b09d-4ecb-b6de-0cda4c5d89cf@mhtml.blink" />
+
+  <title>ASE-TM (Active Speech Enhancement Transformer-Mamba) model</title>
+  <meta property="og:title" content="Deep Active Speech Cancellation with Mamba-Masking Network">
+  <meta property="og:type" content="article">
+  <!-- FIXME(shillingford): add final URL -->
+  <meta property="og:url" content="">
+  <!--meta property="og:image" content="images/vdtts_teaser.webp"-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&family=Roboto:wght@300&display=swap"
+    rel="preload" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&family=Roboto:wght@300&display=swap"
+    rel="stylesheet">
+
+
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .centered-paragraph {
+      max-width: 600px;
+      /* Adjust the width as needed */
+      margin: 0 auto;
+      padding: 10px;
+      text-align: center;
+      /* Optional: Add padding for better readability */
+    }
+  </style>
+</head>
+
+<body>
+  <p class="main">
+
+  <h1>ASE-TM (Active Speech Enhancement Transformer-Mamba) model</h1>
+
+  <div class="fig-teaser">
+    <!-- TODO ADD TEASER IMG -->
+  </div>
+
+  <div class="abs">
+    <p>
+      In this work, we introduce a new paradigm for active sound modification: Active Speech Enhancement (ASE). Active Noise Cancellation (ANC) algorithms focus on suppressing external interference, while ASE goes further by actively shaping the speech signal—both attenuating unwanted noise components and amplifying speech-relevant frequencies—to improve intelligibility and perceptual quality. To enable this, we propose a novel Transformer-Mamba-based architecture, along with a task-specific loss function designed to jointly optimize interference suppression and signal enrichment. Our method supoorts multiple speech processing tasks—including denoising, dereverberation, and declipping.
+    </p>
+  </div>
+
+  <h1>Model</h1>
+  <div class="scroll-container">
+    <div class="fig-model">
+      <img src="figures/ase_mamba_arch.png">
+    </div>
+
+  </div>
+
+  <a id="ConversationalSTE">
+    <h2>Active denoisng task</h2>
+  </a>
+  <div>
+
+  <p class="centered-paragraph">
+    Samples from the VoiceBank-DEMAND test set (T<sub>60</sub> = 0.25s and &lambda;<sup>2</sup> = &infin;).
+    The first audio column, labeled <span class="highlighted">Noisy-speech</span>, represents speech with additive noise, without any enhancement algorithm applied.
+    The second column, <span class="highlighted">Clean-speech</span>, provides the ground truth clean speech signal for reference.
+    The next column, <span class="highlighted">ASE-TM</span>, presents the enhanced signal produced by our proposed model.
+    The following columns, <span class="highlighted">ARN</span>, <span class="highlighted">DeepANC</span>, and <span class="highlighted">THF-FxLMS</span>, display results from the ARN, DeepANC, and THF-FxLMS methods, respectively, each adapted to the speech enhancement task for the same input signal. Noisy-speech and and Clean-speech signals are after the primary path.
+  </p>
+
+  <div class="table-container">
+    <table class="sample-table" id="samples-table">
+      <colgroup>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Noisy-speech</th>
+          <th>Clean-speech</th>
+          <th>ASE-TM</th>
+          <th>ARN</th>
+          <th>DeepANC</th>
+          <th>THF-FxLMS</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+        <!-- Example 1 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="denoising/803/noisy_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/803_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/803/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/803/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/803/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/803/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 2 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="denoising/566/noisy_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/566_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/566/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/566/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/566/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/566/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 3 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="denoising/761/noisy_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/761_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/761/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/761/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/761/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/761/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 4 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="denoising/424/noisy_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/424_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/424/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/424/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/424/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/424/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 5 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="denoising/576/noisy_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/576_after_primary.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/576/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/576/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/576/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="denoising/576/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<a id="ConversationalSTE">
+    <h2>Active dereverberation task</h2>
+  </a>
+  <div>
+
+
+<p class="centered-paragraph">
+    Samples from the VoiceBank-DEMAND test set (T<sub>60</sub> = 0.25s and &lambda;<sup>2</sup> = &infin;) with RIRs applied to generate the Reverbed-speech.
+    The first audio column, labeled <span class="highlighted">Reverbed-speech</span>, represents speech with RIRs applied, without any enhancement algorithm applied.
+    The second column, <span class="highlighted">Clean-speech</span>, provides the ground truth clean speech signal for reference.
+    The next column, <span class="highlighted">ASE-TM</span>, presents the enhanced signal produced by our proposed model.
+    The following columns, <span class="highlighted">ARN</span>, <span class="highlighted">DeepANC</span>, and <span class="highlighted">THF-FxLMS</span>, display results from the ARN, DeepANC, and THF-FxLMS methods, respectively, each adapted to the speech enhancement task for the same input signal. Reverbed-speech and and Clean-speech signals are before the primary path.
+  </p>
+
+  <div class="table-container">
+    <table class="sample-table" id="samples-table">
+      <colgroup>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Reverbed-speech</th>
+          <th>Clean-speech</th>
+          <th>ASE-TM</th>
+          <th>ARN</th>
+          <th>DeepANC</th>
+          <th>THF-FxLMS</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+        <!-- Example 1 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="dereverberation/803/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/803.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/803/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/803/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/803/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/803/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 2 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="dereverberation/566/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/566.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/566/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/566/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/566/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/566/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 3 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="dereverberation/761/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/761.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/761/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/761/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/761/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/761/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 4 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="dereverberation/424/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/424.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/424/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/424/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/424/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/424/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 5 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="dereverberation/576/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/576.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/576/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/576/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/576/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="dereverberation/576/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+<a id="ConversationalSTE">
+    <h2>Active declipping task</h2>
+  </a>
+  <div>
+
+
+<p class="centered-paragraph">
+    Samples from the VoiceBank-DEMAND test set (T<sub>60</sub> = 0.25s and &lambda;<sup>2</sup> = &infin;) with clip value of 0.25 to generate the Clipped-speech.
+    The first audio column, labeled <span class="highlighted">Clipped-speech</span>, represents speech with clipping applied, without any enhancement algorithm applied.
+    The second column, <span class="highlighted">Clean-speech</span>, provides the ground truth clean speech signal for reference.
+    The next column, <span class="highlighted">ASE-TM</span>, presents the enhanced signal produced by our proposed model.
+    The following columns, <span class="highlighted">ARN</span>, <span class="highlighted">DeepANC</span>, and <span class="highlighted">THF-FxLMS</span>, display results from the ARN, DeepANC, and THF-FxLMS methods, respectively, each adapted to the speech enhancement task for the same input signal. Clipped-speech and and Clean-speech signals are before the primary path.
+  </p>
+
+  <div class="table-container">
+    <table class="sample-table" id="samples-table">
+      <colgroup>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Clipped-speech</th>
+          <th>Clean-speech</th>
+          <th>ASE-TM</th>
+          <th>ARN</th>
+          <th>DeepANC</th>
+          <th>THF-FxLMS</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+        <!-- Example 1 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="declipping/803/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/803.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/803/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/803/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/803/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/803/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 2 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="declipping/566/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/566.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/566/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/566/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/566/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/566/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 3 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="declipping/761/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/761.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/761/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/761/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/761/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/761/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 4 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="declipping/424/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/424.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/424/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/424/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/424/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/424/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+        <!-- Example 5 -->
+        <tr class="audio">
+          <td><audio controls=""><source src="declipping/576/noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="clean/576.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/576/ase-tm.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/576/arn.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/576/deepanc.wav" type="audio/wav"></audio></td>
+          <td><audio controls=""><source src="declipping/576/thf-fxlms.wav" type="audio/wav"></audio></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+</body>
+
+</html>
